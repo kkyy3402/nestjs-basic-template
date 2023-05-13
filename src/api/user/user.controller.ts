@@ -1,17 +1,18 @@
-import { Controller, Get, Post, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { UserEntity } from './entities/user.entity';
-import { LoginCheckInterceptor } from '../../common/interceptors/login-check.interceptor';
+import { ApiResponse } from '../../common/response/api-response';
 
 @Controller('/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @UseInterceptors(LoginCheckInterceptor)
-  async fetchUsers(): Promise<UserEntity[]> {
-    return await this.userService.fetchUsers();
+  // @UseInterceptors(LoginCheckInterceptor)
+  async fetchUsers(): Promise<any> {
+    const data = await this.userService.fetchUsers();
+    const result = ApiResponse.success(data);
+    return result;
   }
 
   @Post()
