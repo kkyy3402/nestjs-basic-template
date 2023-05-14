@@ -7,11 +7,11 @@ export class ApiResponse<T> {
     public readonly body: Map<string, T>,
   ) {}
 
-  static success<T>(body: T): ApiResponse<T> {
+  static success<T>(body: T, message?: string): ApiResponse<T> {
     const responseData = new Map<string, T>();
     responseData.set('data', body);
     const apiResponse = new ApiResponse(
-      new ApiResponseHeader(ApiResponseMessages.SUCCESS),
+      new ApiResponseHeader(message ?? ApiResponseMessages.SUCCESS),
       responseData,
     );
     return apiResponse;

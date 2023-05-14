@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { printLog } from '../utils/log-util';
+import { ApiResponse } from '../response/api-response';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -24,10 +25,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     response: Response,
     request: Request,
   ) {
-    response.status(HttpStatus.UNAUTHORIZED).json({
-      message: exception.message,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-    });
+    response
+      .status(HttpStatus.UNAUTHORIZED)
+      .json(ApiResponse.success(null, exception.message));
   }
 }

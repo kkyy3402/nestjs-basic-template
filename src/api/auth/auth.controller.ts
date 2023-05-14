@@ -1,18 +1,19 @@
-import { Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { RequestLoginDto } from './dtos/request-login.dto';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
+import { ApiResponse } from '../../common/response/api-response';
 
 @Controller('/api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('/login')
   async login(
     @Req() request: Request,
-    requestLoginDto: RequestLoginDto,
-  ): Promise<boolean> {
+    @Body() requestLoginDto: RequestLoginDto,
+  ): Promise<any> {
     const loginSuccess = await this.authService.login(request, requestLoginDto);
-    return loginSuccess;
+    return ApiResponse.success(null, `로그인에 성공하였습니다.`);
   }
 }

@@ -17,8 +17,8 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<string> {
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<any> {
     await this.userService.createUser(createUserDto);
-    return 'created!';
+    return ApiResponse.success(null, '유저 추가가 완료되었습니다.');
   }
 }
